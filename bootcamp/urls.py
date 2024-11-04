@@ -16,7 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+#from polls.urls import api
+from blackjack.urls import api as apiGame
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #path("api/", api.urls),
+    path("apiGame/", apiGame.urls)
 ]
