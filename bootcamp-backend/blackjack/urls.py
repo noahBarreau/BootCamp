@@ -30,10 +30,12 @@ class AddGameSchema(Schema):
 @api.post("/create_game", response=GameSchema)
 def add(request, add_game: AddGameSchema):
     game = Game.objects.create(
-        name=add_game.game_name,
+        name=add_game.game_name
     )
 
     for player in add_game.players:
+        print("test")
+        print(player)
         Player.objects.create(
             name=player,
             game=game.id,
