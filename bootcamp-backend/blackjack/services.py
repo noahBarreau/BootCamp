@@ -3,12 +3,13 @@ from blackjack.models import Game, Player
 def create_game(game_name: str, players: list[str]):
     game = Game(name=game_name)
     game.save()
-    game.id
 
     for name in players:
         Player.objects.create(name=name, game=game)
+    
+    return game
 
-def get_player(game_id):
+def get_players(game_id):
     game = Game.objects.get(pk=game_id)
     players = game.players.all()
     return players
