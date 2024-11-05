@@ -38,6 +38,6 @@ def add(request, add_game: AddGameSchema):
         print(player)
         Player.objects.create(
             name=player,
-            game=game.id,
+            game=game,
         )
     return game
