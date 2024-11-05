@@ -17,7 +17,7 @@ def get_players(game_id):
 def get_winners(game_id):
     pass
 
-def modif_score(player_id, game_id):
-    player = Player.objects.get(pk=player_id)
-    player.score = modif_score
+def modif_score(player_id, game_id, score):
+    player = Player.objects.get(id=player_id)
+    player.score = score
     player.save()
