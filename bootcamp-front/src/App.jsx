@@ -2,7 +2,7 @@
 import './App.css'
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Toto from "./pages/Toto";
+import PlayGame from "./pages/PlayGame";
 import NewGame from "./pages/NewGame"
 import { Link } from 'react-router-dom'
 
@@ -12,14 +12,14 @@ function App() {
     <>
       <ul>
         <li> <button onClick={() => navigate("/")}>Home</button></li>
-        <li> <button onClick={() => navigate("/toto")}>toto</button></li>
+        <li> <button onClick={() => navigate("/playGame")}>playGame</button></li>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/toto">Toto</Link></li>
+        <li><Link to="/playGame">PlayGame</Link></li>
       </ul>
       
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/toto" element={<Toto />} />
+        <Route path="/playGame" element={<PlayGame />} />
         <Route path="/newGame" element={<NewGame />} />
       </Routes>
     </>

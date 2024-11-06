@@ -7,16 +7,6 @@ from typing import List
 
 api = NinjaAPI()
 
-class GameSchema(ModelSchema):
-    class Meta:
-        model = Game
-        fields = [
-            "id",
-            "name",
-            "turn",
-            "ended",
-        ]
-
 class PlayerSchema(ModelSchema):
     class Meta:
         model = Player
@@ -26,6 +16,17 @@ class PlayerSchema(ModelSchema):
             "score",
             "game",
         ]
+        
+class GameSchema(ModelSchema):
+    class Meta:
+        model = Game
+        fields = [
+            "id",
+            "name",
+            "turn",
+            "ended",
+        ]
+    players: List[PlayerSchema]
 
 class AddGameSchema(Schema):
     game_name: str

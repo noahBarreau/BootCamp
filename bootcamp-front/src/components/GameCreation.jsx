@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import useCreateGame from "../hooks/useCreateGame";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
-export default function PlayerCreation(){
+export default function PlayerCreation() {
     const [newName, setNewName] = useState('');
     const [gameName, setGameName] = useState('');
     const [players, setPlayers] = useState([]);
-    const {createGame}=useCreateGame();
+    const { createGame } = useCreateGame();
+    const navigate = useNavigate();
 
     const handleAddPlayer = () => {
         if (newName.trim()) {
@@ -13,6 +15,17 @@ export default function PlayerCreation(){
             setNewName('');
         }
     };
+
+    const handleCreateGame = () => {
+        createGame(players, gameName)
+            .then((result) => {
+                navigate("/playGame", { state: { result} });
+            })
+            .catch((error) => {
+                console.error("Game creation failed:", error);
+            });
+    };
+
     return (
         <div>
             <h2>Liste des joueurs</h2>
@@ -38,7 +51,7 @@ export default function PlayerCreation(){
                     </li>
                 ))}
             </ul>
-            <button onClick={()=>createGame(players, gameName)}>Créer la Game</button>
+            <button onClick={handleCreateGame}>Créer la Game</button>
         </div>
     );
 };
