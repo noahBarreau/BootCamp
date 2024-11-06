@@ -3,6 +3,8 @@ import { useState } from 'react';
 import useModifScore from "../hooks/useModifScore";
 import RowPlayer from '../components/RowPlayer';
 import useGetWinners from "../hooks/useGetWinners";
+import {Alert} from 'react-native';
+
 
 export default function PlayGame(){
     let location = useLocation();
@@ -14,6 +16,7 @@ export default function PlayGame(){
     const [diceAmount, setdiceAmount] = useState(1);
     const { modifScore } = useModifScore();
     const { getWinners } = useGetWinners();
+    const [resultWinner, setResultWinner] = useState([]);
 
     const endTurn = (results) => {
 
@@ -31,14 +34,15 @@ export default function PlayGame(){
                 setTurn(turn+1)
             }
         }else {
-            console.log("fin")
             getWinners(location.state.result.id)
                 .then((result) => {
                     console.log(result);
+                    setResultWinner(result);
                 })
                 .catch((error) => {
                     console.error("Game creation failed:", error);
                 });
+
         }
 
         setScore(0)
@@ -59,6 +63,11 @@ export default function PlayGame(){
         for (let i = 0; i < diceAmount; i++) {
             const roll = Math.floor(Math.random() * 6) + 1;
             results = results + roll;
+        }
+        if(score+results==21){
+            <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+            Here is a gentle confirmation that your action was successful.
+            </Alert>
         }
         setScore(score+results)
         if((score+results)>21){
@@ -98,6 +107,24 @@ export default function PlayGame(){
                 <tbody>
                     {players.map((player) => (
                         <RowPlayer key={player.id} player={player} />
+                    ))}
+                </tbody>
+            </table>
+
+
+            <table>
+                <caption>
+                    Résultat :
+                </caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {resultWinner.map((item) => (
+                        <RowPlayer key={item.player.id} player={item.player} />
                     ))}
                 </tbody>
             </table>
