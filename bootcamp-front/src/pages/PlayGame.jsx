@@ -1,7 +1,8 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import useModifScore from "../hooks/useModifScore";
-import RowPlayer from '../components/RowPlayer'
+import RowPlayer from '../components/RowPlayer';
+import useGetWinners from "../hooks/useGetWinners";
 
 export default function PlayGame(){
     let location = useLocation();
@@ -12,6 +13,7 @@ export default function PlayGame(){
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [diceAmount, setdiceAmount] = useState(1);
     const { modifScore } = useModifScore();
+    const { getWinners } = useGetWinners();
 
     const endTurn = (results) => {
 
@@ -23,13 +25,20 @@ export default function PlayGame(){
                 players[turn].score=score;
             }
             modifScore(players[turn].score, players[turn].id)
-            
+
             if(players[turn+1]!=undefined){
                 setTextPlayerName(players[turn+1].name);
                 setTurn(turn+1)
             }
-        }else{
+        }else {
             console.log("fin")
+            getWinners(location.state.result.id)
+                .then((result) => {
+                    console.log(result);
+                })
+                .catch((error) => {
+                    console.error("Game creation failed:", error);
+                });
         }
 
         setScore(0)

@@ -10,12 +10,6 @@ function App() {
   const navigate = useNavigate();
   return (
     <>
-      <ul>
-        <li> <button onClick={() => navigate("/")}>Home</button></li>
-        <li> <button onClick={() => navigate("/playGame")}>playGame</button></li>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/playGame">PlayGame</Link></li>
-      </ul>
       
       <Routes>
         <Route path="/" element={<Home />} />
