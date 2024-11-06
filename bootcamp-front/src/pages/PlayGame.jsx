@@ -3,7 +3,6 @@ import { useState } from 'react';
 import useModifScore from "../hooks/useModifScore";
 import RowPlayer from '../components/RowPlayer';
 import useGetWinners from "../hooks/useGetWinners";
-import {Alert} from 'react-native';
 
 
 export default function PlayGame(){
@@ -65,9 +64,7 @@ export default function PlayGame(){
             results = results + roll;
         }
         if(score+results==21){
-            <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-            Here is a gentle confirmation that your action was successful.
-            </Alert>
+            alert("BlackJack !");
         }
         setScore(score+results)
         if((score+results)>21){
