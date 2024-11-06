@@ -24,7 +24,7 @@ export default function PlayGame(){
                 players[turn].score=score;
             }
 
-            modifScore(players[turn].score, "?player_id="+players[turn].id)
+            modifScore(players[turn].score, players[turn].id)
 
             setTextPlayerName(players[turn+1].name);
             setTurn(turn+1)

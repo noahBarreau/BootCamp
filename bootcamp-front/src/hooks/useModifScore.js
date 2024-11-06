@@ -1,6 +1,6 @@
 export default function useModifScore() {
     const modifScore = (score, id) => {
-        return fetch("http://localhost:8000/apiGame/modif_score"+id, {
+        return fetch("http://localhost:8000/apiGame/modif_score?player_id="+id, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
