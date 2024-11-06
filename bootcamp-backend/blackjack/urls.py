@@ -45,6 +45,6 @@ def add(request, add_game: AddGameSchema):
 def get(request, id: int = None):
     return get_players(id)
 
-@api.put("/modif_score")
-def put(request, data: ScoreUpdateSchema, player_id: int = None, game_id: int = None):
-    modif_score(game_id, player_id, data.score)
+@api.put("/modif_score", response=PlayerSchema)
+def put(request, data: ScoreUpdateSchema, player_id: int = None):
+    return modif_score(player_id, data.score)

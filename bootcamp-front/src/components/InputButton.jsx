@@ -4,8 +4,6 @@ export default function CounterButton({ name }) {
 
     function addPlayer() {
         const inputPlayer = document.getElementById("inputPlayer").value;
-        console.log("result")
-        console.log(inputPlayer)
     }
 
     return (
