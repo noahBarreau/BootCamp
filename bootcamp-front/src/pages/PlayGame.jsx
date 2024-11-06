@@ -5,14 +5,17 @@ import RowPlayer from '../components/RowPlayer'
 export default function PlayGame(){
     let location = useLocation();
     const [players, setPlayers] = useState(location.state.result.players);
-    const [playerThatPlay, setTextPlayerName] = useState("Toto");
+    const [playerThatPlay, setTextPlayerName] = useState(players[0].name);
     const [turn, setTurn] = useState(0);
+    const [score, setScore] = useState(0);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [diceAmount, setdiceAmount] = useState(1);
 
-    const changeText = () => {
+    const endTurn = () => {
+        players[turn].score=score;
         if((turn+1)<=players.length){
-            setTextPlayerName(players[turn].name);
+            setScore(0)
+            setTextPlayerName(players[turn+1].name);
             setTurn(turn+1)
         }
     };
@@ -26,9 +29,24 @@ export default function PlayGame(){
         setDropdownOpen();
     };
 
+    const handleDiceThrow = () => {
+        let results = 0;
+        for (let i = 0; i < diceAmount; i++) {
+            const roll = Math.floor(Math.random() * 6) + 1;
+            results = results + roll;
+        }
+        setScore(score+results)
+        if((score+results)>21){
+            endTurn();
+        }
+    };
+
     return <>
-        <h1 >{playerThatPlay}</h1>
-        <button onClick={changeText}>Finir le Tour</button>
+        <h1 >joueur actuel : {playerThatPlay}</h1>
+        <h1 >score : {score}</h1>
+        <button onClick={endTurn}>Finir le Tour</button>
+
+        <button onClick={handleDiceThrow}>Lancer les dés</button>
 
         <div className="dropdown">
             <button onClick={toggleDropdown} className="dropbtn">Choix des dés</button>
