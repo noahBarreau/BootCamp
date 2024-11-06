@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import useModifScore from "../hooks/useModifScore";
 import RowPlayer from '../components/RowPlayer'
 
 export default function PlayGame(){
@@ -10,6 +11,7 @@ export default function PlayGame(){
     const [score, setScore] = useState(0);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [diceAmount, setdiceAmount] = useState(1);
+    const { modifScore } = useModifScore();
 
     const endTurn = (results) => {
 
@@ -21,6 +23,8 @@ export default function PlayGame(){
             }else{
                 players[turn].score=score;
             }
+
+            modifScore(players[turn].score, "?player_id="+players[turn].id)
 
             setTextPlayerName(players[turn+1].name);
             setTurn(turn+1)
