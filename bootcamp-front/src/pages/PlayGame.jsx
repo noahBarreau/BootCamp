@@ -11,10 +11,17 @@ export default function PlayGame(){
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [diceAmount, setdiceAmount] = useState(1);
 
-    const endTurn = () => {
-        players[turn].score=score;
+    const endTurn = (results) => {
+
         if((turn+1)<=players.length){
             setScore(0)
+
+            if(Number.isInteger(results)){
+                players[turn].score=score+results;
+            }else{
+                players[turn].score=score;
+            }
+
             setTextPlayerName(players[turn+1].name);
             setTurn(turn+1)
         }
@@ -37,7 +44,7 @@ export default function PlayGame(){
         }
         setScore(score+results)
         if((score+results)>21){
-            endTurn();
+            endTurn(results);
         }
     };
 
