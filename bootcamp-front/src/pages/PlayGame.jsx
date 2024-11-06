@@ -15,20 +15,25 @@ export default function PlayGame(){
 
     const endTurn = (results) => {
 
-        if((turn+1)<=players.length){
-            setScore(0)
-
+        if(players[turn+1]!=undefined || players[turn].score==0){
+            
             if(Number.isInteger(results)){
                 players[turn].score=score+results;
             }else{
                 players[turn].score=score;
             }
-
             modifScore(players[turn].score, players[turn].id)
-
-            setTextPlayerName(players[turn+1].name);
-            setTurn(turn+1)
+            
+            if(players[turn+1]!=undefined){
+                setTextPlayerName(players[turn+1].name);
+                setTurn(turn+1)
+            }
+        }else{
+            console.log("fin")
         }
+
+        setScore(0)
+
     };
 
     const toggleDropdown = () => {
