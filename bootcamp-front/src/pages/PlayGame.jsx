@@ -19,6 +19,15 @@ export default function PlayGame(){
 
     const endTurn = (results) => {
 
+        if(players[turn].score==0){
+            if(Number.isInteger(results)){
+                players[turn].score=score+results;
+            }else{
+                players[turn].score=score;
+            }
+            modifScore(players[turn].score, players[turn].id)
+        }
+
         if(players[turn+1]!=undefined || players[turn].score==0){
             
             if(Number.isInteger(results)){
@@ -108,22 +117,23 @@ export default function PlayGame(){
                 </tbody>
             </table>
 
-
-            <table>
-                <caption>
-                    Résultat :
-                </caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {resultWinner.map((item) => (
-                        <RowPlayer key={item.player.id} player={item.player} />
-                    ))}
-                </tbody>
-            </table>
+            {resultWinner && resultWinner.length > 0 && (
+                <table>
+                    <caption>
+                        Résultat :
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {resultWinner.map((item) => (
+                            <RowPlayer key={item.player.id} player={item.player} />
+                        ))}
+                    </tbody>
+                </table>
+            )}
     </>
 }
