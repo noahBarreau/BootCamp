@@ -3,10 +3,14 @@ import { useState } from 'react';
 import useModifScore from "../hooks/useModifScore";
 import RowPlayer from '../components/RowPlayer';
 import useGetWinners from "../hooks/useGetWinners";
+import useAnnounceVar from "../hooks/useAnnounceVar";
+import useEndTurn from "../hooks/useEndTurn";
 
 
 export default function PlayGame(){
     let location = useLocation();
+    //const players =location.state.result.players;
+    
     const [players, setPlayers] = useState(location.state.result.players);
     const [playerThatPlay, setTextPlayerName] = useState(players[0].name);
     const [turn, setTurn] = useState(0);
@@ -15,9 +19,22 @@ export default function PlayGame(){
     const [diceAmount, setdiceAmount] = useState(1);
     const { modifScore } = useModifScore();
     const { getWinners } = useGetWinners();
+    const { announceVar } = useAnnounceVar();
+    const { endTurn } = useEndTurn();
     const [resultWinner, setResultWinner] = useState([]);
 
-    const endTurn = (results) => {
+    const dataObject = {
+        players: players,
+        playerThatPlay: players[0].name,
+        turn: 0,
+        score: 100,
+        diceAmount: 1,
+      };
+
+    const data = { ...dataObject };
+    announceVar(data);
+    
+    const endTurn2 = (results) => {
 
         if(players[turn].score==0){
             if(Number.isInteger(results)){
@@ -77,14 +94,14 @@ export default function PlayGame(){
         }
         setScore(score+results)
         if((score+results)>21){
-            endTurn(results);
+            endTurn2(results);
         }
     };
 
     return <>
         <h1 >joueur actuel : {playerThatPlay}</h1>
         <h1 >score : {score}</h1>
-        <button onClick={endTurn}>Finir le Tour</button>
+        <button onClick={endTurn2}>Finir le Tour</button>
 
         <button onClick={handleDiceThrow}>Lancer les dés</button>
 

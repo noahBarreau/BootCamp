@@ -1,6 +1,8 @@
 from blackjack.models import Game, Player
 from django.core.exceptions import ObjectDoesNotExist
 
+dataGlobal={}
+
 def create_game(game_name: str, players: list[str]):
     game = Game(name=game_name)
     game.save()
@@ -42,3 +44,15 @@ def get_winners(game_id):
                 })
 
     return winners
+
+def end_turn(self, results):
+    return self.score;
+
+
+def announce_var(data):
+    global dataGlobal
+    data_dict = data.dict()
+    for key, value in data_dict.items():
+        dataGlobal[key] = value
+
+    return dataGlobal

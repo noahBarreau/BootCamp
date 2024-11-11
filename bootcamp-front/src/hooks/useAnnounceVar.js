@@ -1,14 +1,12 @@
-export default function useModifScore() {
-    const modifScore = (score, id) => {
-        return fetch("http://localhost:8000/apiGame/modif_score?player_id="+id, {
+export default function useAnnounceVar() {
+    const announceVar = (data) => {
+        return fetch("http://localhost:8000/apiGame/announce_var", {
             method: "PUT",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                "score": score
-              }),
+            body: JSON.stringify(data) 
         })
         .then((response) => {
             if (!response.ok) {
@@ -22,5 +20,5 @@ export default function useModifScore() {
         });
     };
 
-    return { modifScore };
+    return { announceVar };
 }
