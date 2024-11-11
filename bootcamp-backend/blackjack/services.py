@@ -65,19 +65,22 @@ def get_winners(game_id):
 
 def end_turn():
     global dataGlobal
-    turn = dataGlobal["turn"];
-    current_player = dataGlobal["players"][turn];
 
-    if dataGlobal["turn"]+1<len(dataGlobal["players"]):
-        modif_score(current_player["id"], current_player["score"])
-        dataGlobal["playerThatPlay"]=dataGlobal["players"][turn+1]["name"];
-    
-    else :
+    try:
+        turn = dataGlobal["turn"];
+        current_player = dataGlobal["players"][turn];
+
+        if dataGlobal["turn"]+1<len(dataGlobal["players"]):
+            modif_score(current_player["id"], current_player["score"])
+            dataGlobal["playerThatPlay"]=dataGlobal["players"][turn+1]["name"];
+        
+        else :
+            pass
+        
+        dataGlobal["turn"]+=1;
+        dataGlobal["score"]=0;
+    except IndexError:
         pass
-    
-    dataGlobal["turn"]+=1;
-    dataGlobal["score"]=0
-
     
     return dataGlobal
 

@@ -96,8 +96,9 @@ export default function PlayGame(){
 
     const sendHandleDiceThrow = async () => {
         const result = await handleDiceThrow(diceAmount);
-        console.log(result); // Attendre que handleDiceThrow soit résolu
+        console.log(result);
         setScore(result.score)
+        setTextPlayerName(result.playerThatPlay)
         /*
         let results = 0;
         for (let i = 0; i < diceAmount; i++) {
