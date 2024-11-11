@@ -25,64 +25,22 @@ export default function PlayGame(){
     const { endTurn } = useEndTurn();
     const [resultWinner, setResultWinner] = useState([]);
 
-    /*
-    const dataObject = {
-        players: players,
-        playerThatPlay: players[0].name,
-        turn: 0,
-        score: 0,
-      };
+    const displayWinners = async () => {
+        const gameId = location.state.result.id;
 
-    const data = { ...dataObject };
-    announceVar(data);*/
-
-    /*
-    const endTurn2 = (results) => {
-
-        if(players[turn].score==0){
-            if(Number.isInteger(results)){
-                players[turn].score=score+results;
-            }else{
-                players[turn].score=score;
-            }
-            modifScore(players[turn].score, players[turn].id)
-        }
-
-        if(players[turn+1]!=undefined || players[turn].score==0){
-            
-            if(Number.isInteger(results)){
-                players[turn].score=score+results;
-            }else{
-                players[turn].score=score;
-            }
-            modifScore(players[turn].score, players[turn].id)
-
-            if(players[turn+1]!=undefined){
-                setTextPlayerName(players[turn+1].name);
-                setTurn(turn+1)
-            }
-        }else {
-            getWinners(location.state.result.id)
-                .then((result) => {
-                    console.log(result);
-                    setResultWinner(result);
-                })
-                .catch((error) => {
-                    console.error("Game creation failed:", error);
-                });
-
-        }
-
-        setScore(0)
-
-    };
-    */
+        const result = await getWinners(gameId);
+        setPlayers(result.players)
+    }
 
     const sendEndTurn = async () => {
         const result = await endTurn(diceAmount);
         setScore(result.score)
         setTextPlayerName(result.playerThatPlay)
         setPlayers(result.players)
+        if(result.winners){
+            setResultWinner(result.winners)
+        }
+
     }
 
     const toggleDropdown = () => {
@@ -99,19 +57,10 @@ export default function PlayGame(){
         console.log(result);
         setScore(result.score)
         setTextPlayerName(result.playerThatPlay)
-        /*
-        let results = 0;
-        for (let i = 0; i < diceAmount; i++) {
-            const roll = Math.floor(Math.random() * 6) + 1;
-            results = results + roll;
+        setPlayers(result.players)
+        if(result.winners){
+            setResultWinner(result.winners)
         }
-        if(score+results==21){
-            alert("BlackJack !");
-        }
-        setScore(score+results)
-        if((score+results)>21){
-            endTurn(results);
-        }*/
     };
 
     return <>

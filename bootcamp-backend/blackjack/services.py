@@ -3,6 +3,7 @@ import random
 from blackjack.models import Game, Player
 from django.core.exceptions import ObjectDoesNotExist
 from types import SimpleNamespace
+from django.forms.models import model_to_dict
 
 dataGlobal={}
 
@@ -35,9 +36,6 @@ def get_players(game_id):
     players = game.player.all()
     return players
 
-def get_winners(game_id):
-    pass
-
 def modif_score(player_id, score):
     try:
         player = Player.objects.get(id=player_id)
@@ -49,15 +47,17 @@ def modif_score(player_id, score):
     
 def get_winners(game_id):
     game = Game.objects.get(id=game_id)
-    under_21_players = game.players.filter(score__lte=21).order_by('-score')
+    under_21_players = list(filter(lambda player: player["score"] <= 21, dataGlobal["players"]))
+
+    sorted_players = sorted(under_21_players, key=lambda player: player["score"], reverse=True)
 
     winners = []
-    if under_21_players:
-        best_score = under_21_players[0].score
-        for player in under_21_players:
-            if player.score == best_score:
+    if sorted_players:
+        best_score = sorted_players[0]["score"]
+        for player in sorted_players:
+            if player["score"] == best_score:
                 winners.append({
-                    "player": player,
+                    "player": model_to_dict(Player.objects.get(id=player["id"])),
                     "rank": "1"
                 })
 
@@ -75,7 +75,9 @@ def end_turn():
             dataGlobal["playerThatPlay"]=dataGlobal["players"][turn+1]["name"];
         
         else :
-            pass
+            winners = get_winners(dataGlobal["players"][0]["game"])
+            dataGlobal["winners"] = winners
+            
         
         dataGlobal["turn"]+=1;
         dataGlobal["score"]=0;
@@ -97,8 +99,14 @@ def handle_dice_throw(diceAmount):
         dataGlobal["players"][turn]["score"] += results
         dataGlobal["score"] += results
         if((dataGlobal["players"][turn]["score"])>21):
-            end_turn();
+            data = end_turn();
+        else:
+            data = {}
     
+    if 'data' in locals() and "winners" in data:
+        if data["winners"]:
+            dataGlobal["winners"] = data["winners"]
+
     return dataGlobal
 
 def announce_var(data):
