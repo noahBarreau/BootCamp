@@ -5,6 +5,7 @@ import RowPlayer from '../components/RowPlayer';
 import useGetWinners from "../hooks/useGetWinners";
 import useAnnounceVar from "../hooks/useAnnounceVar";
 import useEndTurn from "../hooks/useEndTurn";
+import useHandleDiceThrow from "../hooks/useHandleDiceThrow";
 
 
 export default function PlayGame(){
@@ -20,20 +21,22 @@ export default function PlayGame(){
     const { modifScore } = useModifScore();
     const { getWinners } = useGetWinners();
     const { announceVar } = useAnnounceVar();
+    const { handleDiceThrow } = useHandleDiceThrow();
     const { endTurn } = useEndTurn();
     const [resultWinner, setResultWinner] = useState([]);
 
+    /*
     const dataObject = {
         players: players,
         playerThatPlay: players[0].name,
         turn: 0,
-        score: 100,
-        diceAmount: 1,
+        score: 0,
       };
 
     const data = { ...dataObject };
-    announceVar(data);
-    
+    announceVar(data);*/
+
+    /*
     const endTurn2 = (results) => {
 
         if(players[turn].score==0){
@@ -73,6 +76,14 @@ export default function PlayGame(){
         setScore(0)
 
     };
+    */
+
+    const sendEndTurn = async () => {
+        const result = await endTurn(diceAmount);
+        setScore(result.score)
+        setTextPlayerName(result.playerThatPlay)
+        setPlayers(result.players)
+    }
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -83,7 +94,11 @@ export default function PlayGame(){
         setDropdownOpen();
     };
 
-    const handleDiceThrow = () => {
+    const sendHandleDiceThrow = async () => {
+        const result = await handleDiceThrow(diceAmount);
+        console.log(result); // Attendre que handleDiceThrow soit résolu
+        setScore(result.score)
+        /*
         let results = 0;
         for (let i = 0; i < diceAmount; i++) {
             const roll = Math.floor(Math.random() * 6) + 1;
@@ -94,16 +109,16 @@ export default function PlayGame(){
         }
         setScore(score+results)
         if((score+results)>21){
-            endTurn2(results);
-        }
+            endTurn(results);
+        }*/
     };
 
     return <>
         <h1 >joueur actuel : {playerThatPlay}</h1>
         <h1 >score : {score}</h1>
-        <button onClick={endTurn2}>Finir le Tour</button>
+        <button onClick={sendEndTurn}>Finir le Tour</button>
 
-        <button onClick={handleDiceThrow}>Lancer les dés</button>
+        <button onClick={sendHandleDiceThrow}>Lancer les dés</button>
 
         <div className="dropdown">
             <button onClick={toggleDropdown} className="dropbtn">Choix des dés</button>

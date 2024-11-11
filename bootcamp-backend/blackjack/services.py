@@ -1,15 +1,33 @@
+import random
+
 from blackjack.models import Game, Player
 from django.core.exceptions import ObjectDoesNotExist
+from types import SimpleNamespace
 
 dataGlobal={}
 
 def create_game(game_name: str, players: list[str]):
+    global dataGlobal
+
     game = Game(name=game_name)
     game.save()
 
+    dataGlobal = {
+        "players": [],
+        "playerThatPlay": players[0],
+        "turn": 0,
+        "score": 0
+    }
+
     for name in players:
-        Player.objects.create(name=name, game=game)
-    
+        player_obj = Player.objects.create(name=name, game=game)
+        dataGlobal["players"].append({
+            "id": player_obj.id,
+            "name": player_obj.name,
+            "score": 0,
+            "game": player_obj.game.id
+        })
+
     return game
 
 def get_players(game_id):
@@ -45,14 +63,45 @@ def get_winners(game_id):
 
     return winners
 
-def end_turn(self, results):
-    return self.score;
+def end_turn():
+    global dataGlobal
+    turn = dataGlobal["turn"];
+    current_player = dataGlobal["players"][turn];
 
+    if dataGlobal["turn"]+1<len(dataGlobal["players"]):
+        modif_score(current_player["id"], current_player["score"])
+        dataGlobal["playerThatPlay"]=dataGlobal["players"][turn+1]["name"];
+    
+    else :
+        pass
+    
+    dataGlobal["turn"]+=1;
+    dataGlobal["score"]=0
+
+    
+    return dataGlobal
+
+def handle_dice_throw(diceAmount):
+    global dataGlobal
+    results = 0;
+    turn = dataGlobal["turn"];
+    
+    for i in range(diceAmount.diceAmount):
+        roll = random.randint(1, 6)
+        results = results + roll;
+    
+    if dataGlobal["turn"]<len(dataGlobal["players"]):
+        dataGlobal["players"][turn]["score"] += results
+        dataGlobal["score"] += results
+        if((dataGlobal["players"][turn]["score"])>21):
+            end_turn();
+    
+    return dataGlobal
 
 def announce_var(data):
     global dataGlobal
+
     data_dict = data.dict()
     for key, value in data_dict.items():
         dataGlobal[key] = value
-
     return dataGlobal

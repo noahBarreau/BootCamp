@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import useCreateGame from "../hooks/useCreateGame";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import useAnnounceVar from "../hooks/useAnnounceVar";
 
 export default function PlayerCreation() {
     const [newName, setNewName] = useState('');
     const [gameName, setGameName] = useState('');
     const [players, setPlayers] = useState([]);
+    const [playerCollection, setPlayerCollection] = useState([]);
     const { createGame } = useCreateGame();
+    const { announceVar } = useAnnounceVar();
     const navigate = useNavigate();
 
     const handleAddPlayer = () => {
@@ -14,9 +17,11 @@ export default function PlayerCreation() {
             setPlayers([...players, newName]);
             setNewName('');
         }
+        setPlayerCollection([...players, newName])
     };
 
     const handleCreateGame = () => {
+
         createGame(players, gameName)
             .then((result) => {
                 navigate("/playGame", { state: { result} });

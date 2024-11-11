@@ -1,13 +1,15 @@
-export default function useEndTurn(){
-    const endTurn = () => {
-        return fetch("http://localhost:8000/apiGame/end_turn", {
+export default function useHandleDiceThrow() {
+    const handleDiceThrow = (diceAmount) => {
+        return fetch("http://localhost:8000/apiGame/handle_dice_throw", {
             method: "PUT",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
+            body: JSON.stringify({
+                diceAmount: diceAmount,
+            }) 
         })
-        
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -20,5 +22,5 @@ export default function useEndTurn(){
         });
     };
 
-    return { endTurn };
+    return { handleDiceThrow };
 }
