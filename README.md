@@ -5,19 +5,20 @@
 |       1. ouvrir un terminal a la racine du projet
 |       1.1 se rendre dans le dossier bootcamp-backend
 |       1.2 lancer le serveur ('py manage.py runserver'/'python manage.py runserver'par exemple
-|       1.3 ouvrir le lien proposer ---------------------
+|       1.3 ouvrir le lien proposer 'http://127.0.0.1:8000/' par exemple
 |
 |       2 Ouvrir un 2eme terminal ( il est possible de le faire dans le meme qu'avant )
 |       2.1 se rendre dans le dossier bootcamp-frontend
 |       2.2 lancer le serveur avec 'npm run dev' par exemple
-|       2.3 ouvrir le lien proposer ---------------------
+|       2.3 ouvrir le lien proposer 'http://localhost:5173/' par exemple
 *---------------------------------------------------------------------------------
 
 .---------------------------------------------------------------------------------
-| Tout a été lancé et les pages nécessaires également
-|    -> pour se rendre sur l'api du jeu -> .../apiGame/docs
-|    -> pour se rendre sur l'admin -> ..../admin
-|    -> pour se rendre sur la page de jeu ( pour jouer ) -> page par default
+| Tout a été lancé et les pages nécessaires également : lien utile ( adapter liens si besoin)
+|    -> pour se rendre sur l'api du jeu -> http://127.0.0.1:8000/apiGame/docs
+|    -> pour se rendre sur l'admin -> http://127.0.0.1:8000/admin
+|    -> pour se rendre sur la page de jeu ( pour jouer ) -> http://localhost:5173/
+|    -> pour se rendre sur la page pour jouer il faut creer une game ou ..5173/playGame
 *---------------------------------------------------------------------------------
 
 .---------------------------------------------------------------------------------
@@ -51,6 +52,9 @@
 |
 |     -- Info : lorsque PARTIE est TERMINÉ, le dernier joueur peut continuer a lancer les dés
 |    mais son score ne changera pas pour autant car il a déjà joué.
+|
+|     -- Tips : en cas d'erreur dans la console de type 'location.state is null' il faut
+|    repartir sur la page d'accueil ( http://localhost:5173/ ) et recreer une game
 *---------------------------------------------------------------------------------
 
 -->
