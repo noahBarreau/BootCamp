@@ -71,8 +71,8 @@ def get(request, id: int = None):
     return get_players(id)
 
 @api.get("/get_winners", response=List[WinnerSchema])
-def winners(request, game_id: int):
-    return get_winners(game_id)
+def winners(request):
+    return get_winners()
 
 @api.put("/modif_score", response=PlayerSchema)
 def put(request, data: ScoreUpdateSchema, player_id: int = None):

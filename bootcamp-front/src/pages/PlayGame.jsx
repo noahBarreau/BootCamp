@@ -1,36 +1,21 @@
 import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
-import useModifScore from "../hooks/useModifScore";
+import { useState  } from 'react';
 import RowPlayer from '../components/RowPlayer';
-import useGetWinners from "../hooks/useGetWinners";
-import useAnnounceVar from "../hooks/useAnnounceVar";
 import useEndTurn from "../hooks/useEndTurn";
 import useHandleDiceThrow from "../hooks/useHandleDiceThrow";
 
 
 export default function PlayGame(){
     let location = useLocation();
-    //const players =location.state.result.players;
-    
+
     const [players, setPlayers] = useState(location.state.result.players);
     const [playerThatPlay, setTextPlayerName] = useState(players[0].name);
-    const [turn, setTurn] = useState(0);
     const [score, setScore] = useState(0);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [diceAmount, setdiceAmount] = useState(1);
-    const { modifScore } = useModifScore();
-    const { getWinners } = useGetWinners();
-    const { announceVar } = useAnnounceVar();
     const { handleDiceThrow } = useHandleDiceThrow();
     const { endTurn } = useEndTurn();
     const [resultWinner, setResultWinner] = useState([]);
-
-    const displayWinners = async () => {
-        const gameId = location.state.result.id;
-
-        const result = await getWinners(gameId);
-        setPlayers(result.players)
-    }
 
     const sendEndTurn = async () => {
         const result = await endTurn(diceAmount);
@@ -98,11 +83,11 @@ export default function PlayGame(){
                     ))}
                 </tbody>
             </table>
-
+            <br></br>
             {resultWinner && resultWinner.length > 0 && (
                 <table>
                     <caption>
-                        Résultat :
+                        Résultat
                     </caption>
                     <thead>
                         <tr>

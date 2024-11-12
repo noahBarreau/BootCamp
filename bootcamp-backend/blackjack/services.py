@@ -45,8 +45,7 @@ def modif_score(player_id, score):
     except ObjectDoesNotExist:
         return None
     
-def get_winners(game_id):
-    game = Game.objects.get(id=game_id)
+def get_winners():
     under_21_players = list(filter(lambda player: player["score"] <= 21, dataGlobal["players"]))
 
     sorted_players = sorted(under_21_players, key=lambda player: player["score"], reverse=True)
@@ -70,12 +69,15 @@ def end_turn():
         turn = dataGlobal["turn"];
         current_player = dataGlobal["players"][turn];
 
+        if dataGlobal["turn"]<len(dataGlobal["players"]):
+            modif_score(current_player["id"], current_player["score"])
+
         if dataGlobal["turn"]+1<len(dataGlobal["players"]):
             modif_score(current_player["id"], current_player["score"])
             dataGlobal["playerThatPlay"]=dataGlobal["players"][turn+1]["name"];
         
         else :
-            winners = get_winners(dataGlobal["players"][0]["game"])
+            winners = get_winners()
             dataGlobal["winners"] = winners
             
         

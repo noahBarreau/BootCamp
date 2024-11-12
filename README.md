@@ -53,8 +53,15 @@
 |     -- Info : lorsque PARTIE est TERMINÉ, le dernier joueur peut continuer a lancer les dés
 |    mais son score ne changera pas pour autant car il a déjà joué.
 |
-|     -- Tips : en cas d'erreur dans la console de type 'location.state is null' il faut
+|     -- Tips : Si le lien 'http://localhost:5173/' n'affiche rien, regarder dans la console
+|    Si l'erreur dans la console est de type 'location.state is null' il faut
 |    repartir sur la page d'accueil ( http://localhost:5173/ ) et recreer une game
 *---------------------------------------------------------------------------------
 
+.---------------------------------------------------------------------------------
+|    Identifiant admin : nbarreau
+|    Mot de passe : azertyuiop 
+|     -> c'est la 1ere ligne du clavier
+|
+*---------------------------------------------------------------------------------
 -->

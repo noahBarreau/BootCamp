@@ -1,6 +1,6 @@
 export default function useGetWinners(){
-    const getWinners = (gameId) => {
-        return fetch("http://localhost:8000/apiGame/get_winners?game_id="+gameId, {
+    const getWinners = () => {
+        return fetch("http://localhost:8000/apiGame/get_winners", {
             method: "GET",
             headers: {
                 Accept: "application/json",
